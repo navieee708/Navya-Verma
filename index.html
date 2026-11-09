@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Alex Rivera — Interactive Resume</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;1,600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#e4d3fa;--bg2:#f1e6ff;--bg3:#f5e6b3;--ink:#2a1238;--card:#fffaf0;--soft:#f1e8fb;--accent:#7b3fa0;--accent2:#5b2a86;--mint:#e3c36a;--bar:rgba(255,250,240,.85);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#3b1f5c;--bg2:#241338;--bg3:#3a3015;--ink:#f6efff;--card:#2a1740;--soft:#3a2556;--accent:#a46ad8;--accent2:#7a4bb0;--bar:rgba(42,23,64,.85)}}
+:root[data-theme="dark"]{--bg1:#3b1f5c;--bg2:#241338;--bg3:#3a3015;--ink:#f6efff;--card:#2a1740;--soft:#3a2556;--accent:#a46ad8;--accent2:#7a4bb0;--bar:rgba(42,23,64,.85)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:"Space Grotesk",system-ui,sans-serif;color:var(--ink);background:radial-gradient(circle at 15% 20%,var(--bg1),transparent 45%),radial-gradient(circle at 85% 30%,var(--bg2),transparent 50%),radial-gradient(circle at 50% 95%,var(--bg3),transparent 55%),var(--card);overflow:hidden;position:relative}
+body::before{content:"";position:fixed;inset:0;background-image:radial-gradient(var(--ink) 1px,transparent 1px);background-size:26px 26px;opacity:.07;pointer-events:none}
+.menu{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;height:42px;display:flex;align-items:center;gap:12px;padding:0 14px;background:var(--bar);backdrop-filter:blur(10px);border-bottom:2px solid var(--ink);z-index:9000;font-weight:700;font-size:14px}
+.menu .logo{font-size:20px;cursor:pointer;background:none;border:0;padding:0;color:var(--accent)}
+.menu .sp{flex:1}
+.menu button.t{background:none;border:0;font-size:18px;cursor:pointer;color:var(--ink)}
+.hero{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;width:min(560px,90vw)}
+.hero h1{font-family:Fraunces,Georgia,serif;font-size:clamp(44px,9vw,96px);line-height:.95;margin:0;letter-spacing:-.02em;opacity:.9}
+.hero h1 em{color:var(--accent)}
+.hero p{margin:14px 0 0;font-size:15px;opacity:.75}.hero h1::before{content:"✦ ✧ ✦";display:block;font-family:"Space Grotesk",sans-serif;font-size:18px;letter-spacing:.4em;color:var(--mint);margin-bottom:10px}@media (max-width:700px){.dock button{width:42px;height:42px;font-size:21px}}
+.icons{position:fixed;left:18px;top:70px;display:flex;flex-direction:column;gap:14px;z-index:5}
+.ico{width:78px;background:none;border:0;color:var(--ink);font:inherit;font-size:12px;font-weight:500;cursor:pointer;text-align:center}
+.ico span{display:grid;place-items:center;width:54px;height:54px;margin:0 auto 4px;font-size:28px;background:var(--card);border:2px solid var(--ink);border-radius:16px;box-shadow:3px 3px 0 var(--ink);transition:transform .15s}
+.ico:hover span{transform:translate(-2px,-3px) rotate(-6deg)}
+.win{position:absolute;width:min(390px,92vw);background:var(--card);border:2px solid var(--ink);border-radius:16px;box-shadow:6px 6px 0 var(--ink);overflow:hidden;z-index:10;animation:pop .25s cubic-bezier(.3,1.6,.5,1)}
+.win[hidden]{display:none}
+@keyframes pop{from{transform:scale(.85);opacity:0}}
+.bar{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:2px solid var(--ink);background:var(--soft);cursor:grab;user-select:none;touch-action:none;font-weight:700;font-size:13px}
+.bar:active{cursor:grabbing}
+.dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);background:var(--accent);cursor:pointer;padding:0}
+.body{padding:16px;max-height:min(62vh,460px);overflow:auto;font-size:14px;line-height:1.55}
+.body h2{font-family:Fraunces,Georgia,serif;font-size:26px;margin:0 0 6px;line-height:1.1}
+.body p{margin:0 0 10px}
+.btn{font:inherit;font-weight:700;font-size:13px;color:#1d1b2e;background:var(--mint);border:2px solid var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer;box-shadow:2px 2px 0 var(--ink);transition:transform .1s}
+.btn:active{transform:translate(2px,2px);box-shadow:none}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.stats div{text-align:center;font-size:11px;padding:8px 4px;background:var(--soft);border:2px solid var(--ink);border-radius:12px}.stats b{display:block;font-family:Fraunces,Georgia,serif;font-size:19px;color:var(--accent)}.fact{margin-top:12px;padding:10px 12px;background:var(--soft);border-radius:12px;border:2px dashed var(--ink)}
+details{border:2px solid var(--ink);border-radius:12px;margin-bottom:10px;background:var(--soft)}
+summary{cursor:pointer;padding:10px 12px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:8px}
+summary::after{content:"+";color:var(--accent);font-size:18px;line-height:1}
+details[open] summary::after{content:"–"}
+summary small{display:block;font-weight:400;opacity:.7}
+details div{padding:0 12px 12px}
+details ul{margin:6px 0 0;padding-left:18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chip{font:inherit;font-weight:500;font-size:13px;color:var(--ink);background:var(--soft);border:2px solid var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer;transition:transform .15s}
+.chip:hover{transform:rotate(-4deg) scale(1.06)}
+.chip.on{background:var(--accent);color:#fff}
+.meter{border:2px solid var(--ink);border-radius:12px;padding:12px}
+.track{height:14px;border:2px solid var(--ink);border-radius:99px;overflow:hidden;margin:8px 0;background:var(--card)}
+.fill{height:100%;width:0;background:linear-gradient(90deg,var(--mint),var(--accent2));transition:width .6s cubic-bezier(.3,1.4,.5,1)}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.flip{perspective:700px;height:170px;cursor:pointer;background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left}
+.flip i{display:block;position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;font-style:normal}
+.flip.f i{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border:2px solid var(--ink);border-radius:14px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;font-size:12px;line-height:1.4}
+.face.fr{background:var(--soft)}
+.face.bk{background:var(--accent2);color:#fff;transform:rotateY(180deg)}
+.face b{font-size:15px}.face .em{font-size:32px}
+.links{display:flex;flex-direction:column;gap:10px}
+.links a{display:flex;justify-content:space-between;color:var(--ink);text-decoration:none;font-weight:700;border:2px solid var(--ink);border-radius:12px;padding:10px 12px;background:var(--soft);transition:transform .15s}
+.links a:hover{transform:translateX(5px)}
+.dock{position:fixed;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);display:flex;gap:8px;padding:8px 10px;background:var(--bar);backdrop-filter:blur(10px);border:2px solid var(--ink);border-radius:22px;box-shadow:4px 4px 0 var(--ink);z-index:9000}
+.dock button{width:46px;height:46px;font-size:23px;background:var(--card);border:2px solid var(--ink);border-radius:14px;cursor:pointer;transition:transform .15s}
+.dock button:hover{transform:translateY(-8px) scale(1.15)}
+.dock button.on{background:var(--accent)}
+.toast{position:fixed;bottom:100px;left:50%;transform:translate(-50%,20px);background:var(--ink);color:var(--card);padding:8px 16px;border-radius:99px;font-weight:700;font-size:13px;opacity:0;transition:.3s;z-index:9999;pointer-events:none}
+.toast.s{opacity:1;transform:translate(-50%,0)}
+.bit{position:fixed;font-size:22px;pointer-events:none;z-index:9998}
+@media (max-width:700px){
+ .icons{display:none}
+ .win{position:fixed!important;left:8px!important;right:8px;top:calc(52px + env(safe-area-inset-top,0px))!important;width:auto}
+ .body{max-height:calc(100vh - 220px)}
+ .bar{cursor:default}
+ .hero{top:62%}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="menu"><button class="logo" id="logo" title="Click me!">✦</button><span id="menuName"></span><span class="sp"></span><span id="clock"></span><button class="t" id="theme" title="Toggle theme">◐</button></div>
+<div class="hero"><h1 id="heroName"></h1><p id="heroRole"></p></div>
+<div class="icons" id="icons"></div>
+<div id="desk"></div>
+<div class="dock" id="dock"></div>
+<div class="toast" id="toast"></div>
+<script>
+// ====== EDIT YOUR INFO HERE ======
+const ME={
+ first:"Navya",last:"Verma",role:"Building ideas, creating impact, and refusing to stay in one lane.",
+ email:"navyaverma240610@gmail.com",
+ about:`I’m Navya (you can call me Navie), a top-scoring Commerce student fascinated by where business, technology, entrepreneurship and social impact meet. From cybersecurity programmes and startup ideas to student-led projects and big events, I like taking ideas beyond the brainstorming stage. Poke around: everything here is clickable ✦`,
+ facts:["Published author at 14.","Scored a perfect 100/100 in Artificial Intelligence (CBSE Class 10).","Studies Commerce without Maths, but explores Applied Mathematics on the side to keep quant skills sharp.","Scored 94.2% in the Class 10 boards and 92.5% in Class 11.","From cybersecurity programmes to MUN organising committees: rarely in just one lane."],
+ jobs:[
+  {t:"Vice President",c:"Interact Club (Rotary District 3012)",d:"Leadership",pts:["Planned and coordinated community initiatives and district-level project proposals","Handled events, reporting, student engagement and communication","Stepped up to lead planning when the president was unavailable","Initiatives: Seeds to Shade, Plant 10, Nurture 10, Plastic-Free Campus Challenge, Book Donation Box"]},
+  {t:"Communication Officer",c:"Youth Embrace Network",d:"Mental health initiative",pts:["Handles communication for a mental health initiative"]},
+  {t:"Digital Content Creator",c:"Dinner Byte (STEM Magazine)",d:"Media",pts:["Created digital content for a STEM-focused publication","Turned science and tech ideas into readable stories"]},
+  {t:"Co-Manager",c:"Change Coalition",d:"Women empowerment initiative",pts:["Co-managed coordination and organisational work","Built collaborative, impact-focused leadership skills"]},
+  {t:"Media Management",c:"Hunar Interschool Event",d:"Event management",pts:["Handled media, logistics and activity rotation","Event spanned about 45 schools and 50+ activities"]},
+  {t:"Organising Committee",c:"Model United Nations (MUN)",d:"Event organising",pts:["Part of the organising committee for a MUN conference"]},
+  {t:"Entrepreneurship Programme (NEC)",c:"Junior IIT Bombay E-Cell",d:"Six-month online programme",pts:["Explored startup development and entrepreneurial thinking","Developed a patient-support startup concept"]}
+ ],
+ skills:[
+  {n:"Leadership",q:"Can turn a group chat into an actual project team."},
+  {n:"Project management",q:"Somehow keeping five different initiatives moving."},
+  {n:"Public speaking",q:"Comfortable communicating ideas and representing initiatives."},
+  {n:"Research",q:"Likes understanding the why, not just the what."},
+  {n:"Entrepreneurship",q:"Constantly finding problems that could become businesses."},
+  {n:"Cybersecurity",q:"Interested in digital security and its real-world uses."},
+  {n:"Python",q:"Exploring the technical side of problem-solving."},
+  {n:"Content creation",q:"Turning information into something people want to read."},
+  {n:"Event management",q:"Equal parts planning, coordination and controlled chaos."},
+  {n:"Creative direction",q:"Has opinions about fonts, layouts and colours."},
+  {n:"Business & Economics",q:"Interested in markets, strategy and financial possibilities."}
+ ],
+ projects:[
+  {e:"🏥",n:"Hospital Concierge",s:"Startup concept",d:"A patient-support startup idea.",tech:"Entrepreneurship",u:""},
+  {e:"🔐",n:"Cyber Journey",s:"Security learning",d:"Online programmes, job simulations and Girls Who Code’s Cybersecurity Pathways.",tech:"Tech · Cybersecurity",u:""},
+  {e:"🌱",n:"Seeds to Shade",s:"Plantation drive",d:"A student-led environmental initiative under Interact with community engagement.",tech:"Sustainability · Community",u:""},
+  {e:"🧠",n:"Youth Embrace",s:"Mental health network",d:"Communication officer for a mental health initiative.",tech:"Mental health · Communication",u:""},
+  {e:"💜",n:"Change Coalition",s:"Women empowerment",d:"Collaborative leadership and organisational work for a social-impact initiative.",tech:"Social impact · Leadership",u:""},
+  {e:"📰",n:"Dinner Byte",s:"STEM magazine",d:"Digital content that makes science and technology easy to read.",tech:"Media · STEM communication",u:""}
+ ],
+ wins:[
+  {g:"Academics",items:["94.2% in the CBSE Class 10 boards","92.5% in Class 11","AI topper: 100/100 in Artificial Intelligence (CBSE Class 10)","Highest in class in a Class 11 Economics assessment","29.5/30 in a Business Studies assessment","28.5/30 in an Economics assessment","Published author at 14"]},
+  {g:"Programmes & simulations",items:["Mastercard Cybersecurity (Forage simulation)","Tata Cybersecurity IAM (Forage simulation)","Deloitte Australia Cyber (Forage simulation)","Girls Who Code: Cybersecurity Pathways","Microsoft Skilling (student)"]}
+ ],
+ links:[]
+};
+// ====== END ======
+const $=s=>document.querySelector(s);
+$("#menuName").textContent=ME.first+" "+ME.last+" — resume.exe";
+$("#heroName").innerHTML=`${ME.first}<br><em>${ME.last}</em>`;
+$("#heroRole").textContent=ME.role;
+document.title=ME.first+" "+ME.last+" — Interactive Resume";
+const W={
+ about:{i:"👋",t:"hello.txt",h:()=>`<h2>Hey, I’m ${ME.first} 👋</h2><p>${ME.about}</p><div class="stats"><div><b>94.2%</b>Class 10 boards</div><div><b>92.5%</b>Class 11</div><div><b>100/100</b>AI topper</div></div><button class="btn" id="fb">🎲 Random fun fact</button><div class="fact" id="fact">Press the button!</div>`,
+  on(){let k=-1;$("#fb").onclick=()=>{let n;do{n=Math.floor(Math.random()*ME.facts.length)}while(n===k&&ME.facts.length>1);k=n;$("#fact").textContent=ME.facts[n]}}},
+ exp:{i:"💼",t:"experience/",h:()=>`<h2>Experience</h2>`+ME.jobs.map((j,n)=>`<details ${n?"":"open"}><summary><span>${j.t}<small>${j.c} · ${j.d}</small></span></summary><div><ul>${j.pts.map(p=>`<li>${p}</li>`).join("")}</ul></div></details>`).join("")},
+ skills:{i:"⚡",t:"skills.app",h:()=>`<h2>Skills</h2><p>Tap a skill to see the story.</p><div class="chips">${ME.skills.map((s,n)=>`<button class="chip" data-n="${n}">${s.n}</button>`).join("")}</div><div class="meter"><b id="sn">Pick one ↑</b><small id="sq">I’ll tell you a secret.</small></div>`,
+  on(){document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));c.classList.add("on");const s=ME.skills[c.dataset.n];$("#sn").textContent=s.n;$("#sq").textContent=s.q})}},
+ proj:{i:"🚀",t:"projects/",h:()=>`<h2>Projects</h2><p>Tap a card to flip it.</p><div class="cards">${ME.projects.map(p=>`<button class="flip"><i><span class="face fr"><span class="em">${p.e}</span><span><b>${p.n}</b><br>${p.s}</span></span><span class="face bk"><span>${p.d}</span><span><b>${p.tech}</b></span></span></i></button>`).join("")}</div>`,
+  on(){document.querySelectorAll(".flip").forEach(f=>f.onclick=()=>f.classList.toggle("f"))}},
+ wins:{i:"🏆",t:"academics.txt",h:()=>`<h2>Academic highlights</h2>`+ME.wins.map((g,n)=>`<details ${n?"":"open"}><summary><span>${g.g}</span></summary><div><ul>${g.items.map(p=>`<li>${p}</li>`).join("")}</ul></div></details>`).join("")},
+ hi:{i:"💌",t:"say-hi.mail",h:()=>`<h2>Let’s talk!</h2><p>Got an idea, a project or an opportunity in mind? I’d love to hear it.</p><p><button class="btn" id="cp">📋 Copy my email</button></p><div class="links">${ME.links.map(l=>`<a href="${l[2]}"><span>${l[0]}</span><span>${l[1]}</span></a>`).join("")}</div>`,
+  on(){if(!ME.email){$("#cp").hidden=true;return}$("#cp").onclick=e=>{try{navigator.clipboard.writeText(ME.email)}catch(x){}toast("Email copied: "+ME.email);burst(e.clientX,e.clientY)}}}
+};
+let z=10;const wins={};const mob=()=>innerWidth<=700;
+Object.keys(W).forEach((k,n)=>{
+ const d=W[k],el=document.createElement("div");el.className="win";el.hidden=true;
+ el.innerHTML=`<div class="bar"><button class="dot" aria-label="Close"></button>${d.i} ${d.t}</div><div class="body">${d.h()}</div>`;
+ $("#desk").appendChild(el);wins[k]=el;d.on&&d.on.call(d);
+ el.style.left=(150+n*34)+"px";el.style.top=(70+n*38)+"px";
+ el.addEventListener("pointerdown",()=>el.style.zIndex=++z);
+ el.querySelector(".dot").onclick=()=>close(k);
+ const bar=el.querySelector(".bar");let ox,oy,dr=false;
+ bar.onpointerdown=e=>{if(mob()||e.target.closest(".dot"))return;dr=true;ox=e.clientX-el.offsetLeft;oy=e.clientY-el.offsetTop;bar.setPointerCapture(e.pointerId)};
+ bar.onpointermove=e=>{if(!dr)return;el.style.left=Math.max(0,Math.min(innerWidth-120,e.clientX-ox))+"px";el.style.top=Math.max(44,Math.min(innerHeight-80,e.clientY-oy))+"px"};
+ bar.onpointerup=()=>dr=false;
+ const ic=document.createElement("button");ic.className="ico";ic.innerHTML=`<span>${d.i}</span>${d.t}`;ic.onclick=()=>open(k);$("#icons").appendChild(ic);
+ const db=document.createElement("button");db.innerHTML=d.i;db.title=d.t;db.id="d-"+k;db.onclick=()=>wins[k].hidden?open(k):close(k);$("#dock").appendChild(db);
+});
+function open(k){if(mob())Object.keys(wins).forEach(j=>j!==k&&close(j));const e=wins[k];e.hidden=false;e.style.zIndex=++z;$("#d-"+k).classList.add("on")}
+function close(k){wins[k].hidden=true;$("#d-"+k).classList.remove("on")}
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("s");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("s"),2200)}
+function burst(x,y){const set=["✦","💖","✨","🎉","🌈","⭐"];for(let i=0;i<16;i++){const b=document.createElement("span");b.className="bit";b.textContent=set[i%set.length];b.style.left=x+"px";b.style.top=y+"px";document.body.appendChild(b);const a=Math.random()*6.28,r=60+Math.random()*120;b.animate([{transform:"translate(0,0) scale(1)",opacity:1},{transform:`translate(${Math.cos(a)*r}px,${Math.sin(a)*r+60}px) rotate(${Math.random()*360}deg) scale(.4)`,opacity:0}],{duration:900+Math.random()*500,easing:"cubic-bezier(.2,.8,.4,1)"}).onfinish=()=>b.remove()}}
+$("#logo").onclick=e=>{burst(e.clientX,e.clientY);toast("You found the sparkle ✨")};
+$("#theme").onclick=()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;r.dataset.theme=d?"light":"dark"};
+const tick=()=>{$("#clock").textContent=new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})};tick();setInterval(tick,30000);
+open("about");
+</script>
+</body>
+</html>
